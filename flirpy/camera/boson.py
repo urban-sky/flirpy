@@ -742,6 +742,95 @@ class Boson(Core):
             res = struct.unpack(">I", res)[0]
 
         return res
+    
+    def get_radiometry_capable(self):
+        """
+        Get for the Radiometry Capable flag
+
+        FLR_DISABLE = 0
+        FLR_ENABLE = 1
+        FLR_ENABLE_END = 2
+        """
+
+        function_id = 0x0042007D
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack(">I", res)[0]
+
+        return res
+    
+    def set_temp_stable_state(self, enabled: int):
+        """
+        [RADIOMETRY]
+        Set the Temp Stable enable state
+
+        FLR_DISABLE = 0
+        FLR_ENABLE = 1
+        FLR_ENABLE_END = 2
+        """
+
+        function_id = 0x00420000
+        command = struct.pack(">I", int(enabled))
+
+        self._send_packet(function_id, data=command)
+    
+    def get_temp_stable_state(self):
+        """
+        [RADIOMETRY]
+        Set the Temp Stable enable state
+
+        FLR_DISABLE = 0
+        FLR_ENABLE = 1
+        FLR_ENABLE_END = 2
+        """
+
+        function_id = 0x00420001
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack(">I", res)[0]
+
+        return res
+    
+    def set_tlinear_state(self, enabled: int):
+        """
+        [RADIOMETRY]
+        Set the current enable state of the TLinear module
+
+        FLR_DISABLE = 0
+        FLR_ENABLE = 1
+        FLR_ENABLE_END = 2
+        """
+
+        function_id = 0x003E0001
+        command = struct.pack(">I", int(enabled))
+
+        self._send_packet(function_id, data=command)
+
+    def get_tlinear_state(self):
+        """
+        [RADIOMETRY]
+        Set the current enable state of the TLinear module
+
+        FLR_DISABLE = 0
+        FLR_ENABLE = 1
+        FLR_ENABLE_END = 2
+        """
+
+        function_id = 0x003E0002
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack(">I", res)[0]
+
+        return res
 
     def _decode_packet(self, data, receive_size=0):
         """
