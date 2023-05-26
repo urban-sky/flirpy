@@ -723,7 +723,7 @@ class Boson(Core):
     
     def get_gain_mode(self):
         """
-        Set the gain mode
+        Get the gain mode
 
         FLR_BOSON_HIGH_GAIN = 0
         FLR_BOSON_LOW_GAIN = 1
