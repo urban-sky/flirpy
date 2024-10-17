@@ -832,6 +832,143 @@ class Boson(Core):
 
         return res
 
+    def set_transmission_atm(self,  trans: float):
+        """
+        [RADIOMETRY]
+        Get current atmospheric transmission setting as a percentage
+        """
+
+        function_id = 0x00420073
+        command = struct.pack(">f", float(trans))
+
+        self._send_packet(function_id, data=command)
+
+    def get_transmission_atm(self):
+        """
+        [RADIOMETRY]
+        Get current atmospheric transmission setting as a percentage
+        """
+
+        function_id = 0x00420074
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack('>f', res)[0]
+
+        return res
+    
+    def set_temp_atm(self, temp: float):
+        """
+        [RADIOMETRY]
+        Set current atmospheric temperature in deg K
+        """
+
+        function_id = 0x00420075
+        command = struct.pack(">f", float(temp))
+
+        self._send_packet(function_id, data=command)
+
+    def get_temp_atm(self):
+        """
+        [RADIOMETRY]
+        Get current atmospheric temperature setting in deg K
+        """
+
+        function_id = 0x00420076
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack('>f', res)[0]
+
+        return res
+    
+    def set_emissivity_obj(self, emiss: float):
+        """
+        [RADIOMETRY]
+        Set current object emissivity as a percentage
+        """
+
+        function_id = 0x00420077
+        command = struct.pack(">f", float(emiss))
+
+        self._send_packet(function_id, data=command)
+
+    def get_emissivity_obj(self):
+        """
+        [RADIOMETRY]
+        Get current object emissivity setting as a percentage
+        """
+
+        function_id = 0x00420078
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack('>f', res)[0]
+
+        return res
+    
+    def set_background_temp(self, temp: float):
+        """
+        [RADIOMETRY]
+        Set current background temperature in deg K
+        """
+
+        function_id = 0x00420079
+        command = struct.pack(">f", float(temp))
+
+        self._send_packet(function_id, data=command)
+
+    def get_background_temp(self):
+        """
+        [RADIOMETRY]
+        Get current background temperature setting in deg K
+        """
+
+        function_id = 0x0042007A
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=4)
+
+        if res is not None and len(res) == 4:
+            res = struct.unpack('>f', res)[0]
+
+        return res
+
+    def get_RBFO(self):
+        """
+        [RADIOMETRY]
+        Get current defalut RBFO params for low gain
+        """
+
+        function_id = 0x0042001D
+
+        res = self._send_packet(function_id)
+        res = self._decode_packet(res, receive_size=16)
+
+        if res is not None and len(res) == 16:
+            res = struct.unpack('>4f', res)
+
+        return res
+
+    def set_RBFO(self, R:float, B:float, F:float, O:float):
+        """
+        [RADIOMETRY]
+        Set current defalut RBFO params for low gain
+        """
+
+        function_id = 0x0042001C
+        command = struct.pack('>ffff', R, B, F, O)
+
+        res = self._send_packet(function_id, data=command)
+
+        return res
+
     def _decode_packet(self, data, receive_size=0):
         """
         Decodes a data packet from the camera.
